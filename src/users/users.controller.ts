@@ -1,4 +1,4 @@
-import { Get, Controller, Res, HttpStatus, Post, Body } from "@nestjs/common";
+import { Get, Controller, Res, HttpStatus, Post, Body, Put, Param, Delete } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { Response } from 'express';
 
@@ -22,4 +22,39 @@ export class UsersController {
       userId,
     }
   }
+
+  @Get()
+  getAllUsers() {
+    return this.userService.getUsers();
+  }
+
+  @Get(':userId')
+  getUser(
+    @Param('userId') userId: string,
+  ) {
+    return this.userService.getUserById(userId);
+  }
+
+  @Put('userId')
+  updateUser(
+    @Param('userId') userId: string,
+    @Param('name') name: string,
+    @Param('age') age: number,
+    @Param('email') email: string,
+  ) {
+    return this.userService.updateUser(
+      userId,
+      name,
+      age,
+      email,
+    );
+  }
+
+  @Delete(':userId')
+  deleteUser(
+    @Param('userId') userId: string,
+  ) {
+    this.userService.deleteUser(userId);
+  }
+
 }
